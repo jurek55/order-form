@@ -1,0 +1,19 @@
+label {
+    display: block;
+    width: 150px;
+    font-size: 20px;
+    margin-top: 20px;
+}
+form {
+    width: 300px;
+    margin: 0 auto;
+}
+select {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+#submit {
+    font-size: 20px;
+    padding: 10px;
+    margin-top: 10px;
+}
