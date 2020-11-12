@@ -11,7 +11,7 @@ const Form =(props)=> {
 
         <label htmlFor='time'>
             Preparation time *
-            <input id="time" type="time" name="time" step="1" value={props.state.time} onChange={props.change}/>
+            <input id="time" type="time" min='props.starttime' name="time" step="1" value={props.state.time} onChange={props.change}/>
         </label>
 
         <label id='as' htmlFor="type">

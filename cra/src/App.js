@@ -14,7 +14,11 @@ class App extends React.Component {
       spiciness: '',
       isSend: false,
   }
-  
+  CurrentTime = () => {
+    const time = new Date();
+    const timeStart = `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`;
+    return timeStart;
+}
   handleChange=(e)=>{
         if (e.target.name === 'name'){
             const name = e.target.value
@@ -107,6 +111,9 @@ class App extends React.Component {
         if (xhr.status >= 200 && xhr.status < 300) {
             const response = JSON.parse(xhr.response);
             console.log(response);
+        } else {
+            console.log(xhr.status);
+            return alert('Connection with server fail ! Contact server administartor')
         }
         this.setState({
             isSend: true
@@ -116,7 +123,7 @@ class App extends React.Component {
         }
     };
    
-    xhr.open('POST', 'https://api.jkunicki.pl/dish/',true);
+    xhr.open('POST', 'https://frosty-wood-6558.getsandbox.com:443/dishes/',true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify(send_ord));
     
@@ -138,7 +145,7 @@ class App extends React.Component {
       return(
         
         <React.Fragment>
-            <Form state={this.state} change={this.handleChange} submit={this.sendJson}/>
+            <Form state={this.state} change={this.handleChange} submit={this.sendJson} timestart={this.CurrentTime}/>
         </React.Fragment>
         ) 
       }
