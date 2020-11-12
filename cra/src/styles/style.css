@@ -1,11 +1,11 @@
 label {
     display: block;
-    width: 170px;
+    width: 200px;
     font-size: 20px;
     margin-top: 20px;
 }
 form {
-    width: 300px;
+    width: 210px;
     margin: 0 auto;
 }
 select {
@@ -14,6 +14,39 @@ select {
 }
 #submit {
     font-size: 20px;
-    padding: 10px;
+    padding: 5px;
     margin-top: 10px;
+    height: 40px;
+    width: 200px;
+    text-transform: uppercase;
+    font-weight: bold;
+    cursor: pointer;
+}
+input {
+    height: 25px;
+    font-size: 20px;
+    width: 150px;
+    text-align: center;
+    
+}
+input:focus {
+    background-color: lightblue;
+}
+.wrap {
+    background-color: lightgrey;
+    width: 60%;
+    margin: 50px auto;
+    padding: 50px;
+}
+#type {
+    font-size: 20px;
+    font-style: italic;
+}
+.dish {
+    width: 400px;
+    text-align: center;
+}
+form>hr {
+    background-color: blue;
+    height: 1px;
 }

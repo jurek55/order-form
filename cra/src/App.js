@@ -11,20 +11,21 @@ class App extends React.Component {
       diameter: '',
       no_slices: '',
       slicesbread: '',
-      spiciness: ''
+      spiciness: '',
+      isSend: false,
   }
   
   handleChange=(e)=>{
-      if (e.target.name === 'name'){
-          const name = e.target.value
-          this.setState({
+        if (e.target.name === 'name'){
+            const name = e.target.value
+            this.setState({
               name
-          })} else
-      if (e.target.name === 'time'){
-          const time = e.target.value
-          this.setState({
-              time
-          })} else
+            })} else
+        if (e.target.name === 'time'){
+            const time = e.target.value
+           this.setState({
+            time
+            })} else
       if (e.target.name === 'type'){
           const type = e.target.value
           this.setState({
@@ -50,18 +51,17 @@ class App extends React.Component {
           this.setState({
               slicesbread
           })}
-  }
+        }
  
   sendJson=(e)=>{
     e.preventDefault();
-    
     const obiekt = this.state;
     const send_ord = {
         name: obiekt.name,
         time: obiekt.time,
         type: obiekt.type,
     };
-    if (!obiekt.name || !obiekt.time || !obiekt.type){
+    if (!obiekt.name || !obiekt.time || !obiekt.type===''){
         return alert('All required fields must be filled on !');
     } else {const regex = new RegExp('^[0-9]{2}:[0-9]{2}:[0-9]{2}$');
             const test = regex.test(obiekt.time);
@@ -71,8 +71,23 @@ class App extends React.Component {
         }
 
     if (obiekt.type==='pizza'){
-        send_ord.no_slices=obiekt.no_slices;
-        send_ord.diameter=obiekt.diameter;
+        if (obiekt.no_slices){
+            obiekt.no_slices=Number(obiekt.no_slices)
+        }
+        if (!obiekt.no_slices || Number.isInteger(obiekt.no_slices)){
+            if (obiekt.no_slices>0 && obiekt.no_slices<11){
+                send_ord.no_slices=obiekt.no_slices;
+            } else if (obiekt.no_slices<0 || obiekt.no_slices>10){
+                return alert('Type number slices value from corect range or nothing')
+            }
+        } else {
+            return alert('Number of slices must by integer number or nothing!');
+        }
+        if (obiekt.diameter && obiekt.diameter>0 && obiekt.diameter<=40){
+            send_ord.diameter=obiekt.diameter;
+        } else if (obiekt.diameter && (obiekt.diameter<0 || obiekt.diameter>40)){
+            return alert('Type diameter value from corect range or nothing')
+        }
     }
     if (obiekt.type==='sandwich' && !obiekt.slicesbread){
         return alert('Field Number slices must be filled on !')
@@ -80,11 +95,11 @@ class App extends React.Component {
         send_ord.slicesbread=obiekt.slicesbread;
         }
 
-    if (obiekt.type==='soup' && (obiekt.spiciness>0 && obiekt.spiciness<11)){
+    if (obiekt.type==='soup' && obiekt.spiciness && (obiekt.spiciness>0 && obiekt.spiciness<11)){
         send_ord.spiciness=obiekt.spiciness;
-    } else if (obiekt.type==='soup' && (obiekt.spiciness<1 || obiekt.spiciness>10)){
-            return alert('write down corect value of spiciness 1-10')
-        }
+    } else if (obiekt.type==='soup' && obiekt.spiciness && (obiekt.spiciness<1 || obiekt.spiciness>10)){
+            return alert('write down corect value of spiciness 1-10 or nothing')
+        } 
 
     const xhr = new XMLHttpRequest();
     xhr.onload = () => {
@@ -93,7 +108,14 @@ class App extends React.Component {
             const response = JSON.parse(xhr.response);
             console.log(response);
         }
+        this.setState({
+            isSend: true
+        })
+        if (this.state.isSend){
+            alert('Your order is corectly. It was send with success !');
+        }
     };
+   
     xhr.open('POST', 'https://api.jkunicki.pl/dish/',true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify(send_ord));
@@ -105,8 +127,10 @@ class App extends React.Component {
         diameter: '',
         no_slices: '',
         slicesbread: '',
-        spiciness: ''
+        spiciness: '',
+        isSend: false
     })
+    
 }
 
   render(){
